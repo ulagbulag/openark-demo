@@ -69,7 +69,7 @@ def show_code_python() -> None:
 
 
 if __name__ == '__main__':
-    st.title('Subscribe Models (Topics)')
+    st.title('UWB :: Real-time Subscribing')
     inputs = asyncio.run(get_inputs())
     code.show(globals(), inputs)
     asyncio.run(execute(**inputs))
