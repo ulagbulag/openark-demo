@@ -1,0 +1,165 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openark-demo
+  namespace: dash
+  labels:
+    name: openark-demo
+    serviceType: public
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      name: openark-demo
+  template:
+    metadata:
+      labels:
+        name: openark-demo
+        serviceType: public
+    spec:
+      affinity:
+        nodeAffinity:
+          # KISS normal control plane nodes should be preferred
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              preference:
+                matchExpressions:
+                  - key: node-role.kubernetes.io/kiss
+                    operator: In
+                    values:
+                      - ControlPlane
+            - weight: 2
+              preference:
+                matchExpressions:
+                  - key: node-role.kubernetes.io/kiss
+                    operator: In
+                    values:
+                      - Gateway
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+      serviceAccount: dash-system
+      containers:
+        - name: openark-demo
+          image: quay.io/ulagbulag/openark-demo:latest
+          imagePullPolicy: Always
+          env:
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: object-storage-user-0
+                  key: CONSOLE_ACCESS_KEY
+            - name: AWS_ENDPOINT_URL
+              value: http://minio
+            - name: AWS_REGION
+              value: us-east-1
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: object-storage-user-0
+                  key: CONSOLE_SECRET_KEY
+            - name: DASH_DATA_DIR
+              value: /data
+            - name: NATS_ACCOUNT
+              value: nats-admin
+            - name: NATS_ADDRS
+              value: nats.dash.svc.ops.openark
+            - name: NATS_PASSWORD_PATH
+              value: /var/run/secrets/nats.io/token
+            - name: PIPE_DEFAULT_MESSENGER
+              value: Nats
+          ports:
+            - name: http
+              protocol: TCP
+              containerPort: 80
+          resources:
+            requests:
+              cpu: 100m
+              memory: 200Mi
+            limits:
+              cpu: 1000m
+              memory: 2000Mi
+          volumeMounts:
+            - name: data
+              mountPath: /data
+            - name: nats-token
+              mountPath: /var/run/secrets/nats.io
+              readOnly: true
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: openark-demo-user-storage
+        - name: nats-token
+          secret:
+            secretName: nats-admin-nats-bound-token
+            optional: false
+            items:
+              - key: token
+                path: token
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: openark-demo
+  namespace: dash
+spec:
+  selector:
+    name: openark-demo
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: openark-demo
+  namespace: dash
+  annotations:
+    cert-manager.io/cluster-issuer: ingress-nginx-controller.vine.svc.ops.openark
+    kubernetes.io/ingress.class: ingress-nginx-controller.vine.svc.ops.openark
+    nginx.ingress.kubernetes.io/auth-response-headers: Authorization
+    nginx.ingress.kubernetes.io/auth-url: http://$host/oauth2/auth
+    nginx.ingress.kubernetes.io/auth-signin: http://$host/oauth2/start?rd=$escaped_request_uri
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: 200M
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    vine.ulagbulag.io/is-service: "true"
+    vine.ulagbulag.io/is-service-public: "true"
+    vine.ulagbulag.io/is-service-system: "true"
+    vine.ulagbulag.io/service-kind: OpenARK Demo
+spec:
+  # tls:
+  #   - hosts:
+  #       - ingress-nginx-controller.vine.svc.ops.openark
+  #     secretName: ingress-nginx-controller.vine.svc.ops.openark-certs
+  rules:
+    - host: ingress-nginx-controller.vine.svc.ops.openark
+      http:
+        paths:
+          - path: /dev/openark/demo/
+            pathType: Prefix
+            backend:
+              service:
+                name: openark-demo
+                port:
+                  number: 80
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: openark-demo-user-storage
+  namespace: dash
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 50Mi
+  storageClassName: ceph-filesystem
