@@ -18,11 +18,12 @@ RUN apt-get update && apt-get install -y \
     rm -rf /var/lib/apt/lists/*
 
 # Install it as a package
-ADD ./ /opt/openark/demo
+ADD ./requirements.txt /opt/openark/demo/requirements.txt
 WORKDIR /opt/openark/demo
 RUN pip install -r requirements.txt && \
     # Cleanup
     find /usr -type d -name '*__pycache__' -prune -exec rm -rf {} \;
+ADD ./ /opt/openark/demo
 
 # Serve
 ENTRYPOINT [ "streamlit", "run", "Home.py", "--browser.gatherUsageStats=False", "--server.address=0.0.0.0", "--server.baseUrlPath=/dev/openark/demo/", "--server.enableCORS=false", "--server.enableXsrfProtection=false", "--server.headless=true", "--server.port=80" ]
