@@ -4,7 +4,7 @@
 
 ```sh
 streamlit run Home.py --server.port=8501
-# Then, open "http://localhost:8501/dev/openark/demo/" with your browser.
+# Then, open "http://localhost:8501/" with your browser.
 ```
 
 ## Upload my own Feature
