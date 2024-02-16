@@ -71,7 +71,7 @@ def show_code_python(image: Any | None) -> None:
     st.code(
         f'''
         # 0. Check inputs
-        def capture_image(save_path: str):
+        def capture_image(save_path: str) -> bytes:
             import cv2
 
             cap = cv2.VideoCapture(0)  # on Linux, /dev/video0 should be exists
