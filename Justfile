@@ -19,7 +19,6 @@ run *ARGS:
   streamlit run Home.py \
     --browser.gatherUsageStats=False \
     --server.address=0.0.0.0 \
-    --server.baseUrlPath=/ \
     --server.enableCORS=false \
     --server.enableXsrfProtection=false \
     --server.headless=true \
