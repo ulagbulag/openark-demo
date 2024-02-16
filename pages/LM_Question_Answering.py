@@ -31,7 +31,8 @@ async def execute(context: str, question: str) -> None:
     function_name = 'question-answering'
 
     # 4. Load the function
-    function = await ark.get_function(function_name)
+    with st.spinner('Loading a function...'):
+        function = await ark.get_function(function_name)
 
     # 5. Make an input value
     input_value = {

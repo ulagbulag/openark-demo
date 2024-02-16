@@ -30,7 +30,8 @@ async def execute() -> None:
         f'SELECT * FROM {model_name} ORDER BY __timestamp DESC LIMIT 10')
 
     # 6. Collect data (Execute)
-    df = lf.collect()
+    with st.spinner('Collecting data...'):
+        df = await lf.collect_async()
 
     # 7. Show outputs
     st.table(df)
