@@ -1,3 +1,4 @@
 openark>=0.0.9
+opencv-python
 streamlit
 streamlit-webrtc

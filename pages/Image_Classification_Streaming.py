@@ -6,7 +6,7 @@ import cv2
 import streamlit as st
 from streamlit_webrtc import webrtc_streamer
 
-from utils import code, upload
+from utils import code
 
 
 async def get_inputs() -> dict[str, Any]:
