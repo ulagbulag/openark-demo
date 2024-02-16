@@ -1,7 +1,7 @@
 # Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
+**/__pycache__/
+**/*.py[cod]
+**/*$py.class
 
 # C extensions
 *.so
@@ -165,7 +165,6 @@ cython_debug/
 # CI/CD
 /.github/
 /templates/
-**/*.sh
 **/*.yaml
 **/*.yml
 

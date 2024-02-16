@@ -8,6 +8,12 @@ ARG PYTHON_VERSION="3.12-bookworm"
 # Be ready for serving
 FROM "docker.io/library/python:${PYTHON_VERSION}" as server
 
+# Configure server
+CMD [ "./run.sh" ]
+ENTRYPOINT [ "/usr/bin/env" ]
+EXPOSE 8501
+HEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health
+
 # Install dependencies
 RUN apt-get update && apt-get install -y \
     # Install core dependencies
@@ -23,9 +29,12 @@ WORKDIR /opt/openark/demo
 RUN pip install -r requirements.txt && \
     # Cleanup
     find /usr -type d -name '*__pycache__' -prune -exec rm -rf {} \;
-ADD ./ /opt/openark/demo
 
-# Serve
-ENTRYPOINT [ "streamlit", "run", "Home.py", "--browser.gatherUsageStats=False", "--server.address=0.0.0.0", "--server.baseUrlPath=/dev/openark/demo/", "--server.enableCORS=false", "--server.enableXsrfProtection=false", "--server.headless=true", "--server.port=80" ]
-EXPOSE 8501
-HEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health
+# Add files (ordered by least updates)
+ADD ./LICENSE /opt/openark/demo/
+ADD ./run.sh /opt/openark/demo/
+ADD ./README.md /opt/openark/demo/
+ADD ./utils /opt/openark/demo/utils
+ADD ./Home.py /opt/openark/demo/
+ADD ./pages /opt/openark/demo/pages-prebuilt
+VOLUME /opt/openark/demo/pages
