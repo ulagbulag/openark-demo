@@ -18,6 +18,7 @@ HEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health
 RUN apt-get update && apt-get install -y \
     # Install core dependencies
     findutils \
+    python3-opencv \
     # Install build dependencies
     cargo && \
     # Cleanup
