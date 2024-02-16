@@ -42,7 +42,9 @@ async def execute(image: Any | None) -> None:
     # 6. Make an input value
     input_value = {
         # NOTE: the prefix "@data:image" describes that this payload data is an image.
-        'image': f'@data:image,{image_name}',
+        'images': [
+            f'@data:image,{image_name}',
+        ],
     }
 
     # 7. Upload the data and return the input message
@@ -95,7 +97,9 @@ def show_code_python(image: Any | None) -> None:
         # 6. Make an input value
         input_value = {{
             # NOTE: the prefix "@data:image" describes that this payload data is an image.
-            'image': f'@data:image,{{image_name}}',
+            'images': [
+                f'@data:image,{{image_name}}',
+            ],
         }}
 
         # 7. Upload the data and return the input message
