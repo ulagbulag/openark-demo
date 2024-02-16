@@ -41,16 +41,16 @@ def show_code_python() -> None:
         f'''
         # 1. Import needed libraries
         from openark import OpenArk
-        
+
         # 2. Create an OpenARK instance
         ark = OpenArk()
-        
+
         # 3. Load global namespace
         gn = ark.get_global_namespace()
-        
+
         # 4. Define the UWB Location Dataset name
         model_name = 'footprint'
-        
+
         # 5. Query 10 latest rows
         lf = gn.sql(
             f'SELECT * FROM {{model_name}} ORDER BY __timestamp DESC LIMIT 10')
@@ -60,6 +60,7 @@ def show_code_python() -> None:
 
         # 7. Show outputs
         print(df)
+
         ''',
         line_numbers=True,
     )

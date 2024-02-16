@@ -32,15 +32,16 @@ def show_code_python() -> None:
         f'''
         # 1. Import needed libraries
         from openark import OpenArk
-        
+
         # 2. Create an OpenARK instance
         ark = OpenArk()
-        
+
         # 3. Query all functions that you can use
         function_names = ark.list_functions()
-        
+
         # 4. Show outputs
         print(function_names)
+
         ''',
         line_numbers=True,
     )

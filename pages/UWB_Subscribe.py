@@ -24,8 +24,6 @@ async def execute() -> None:
     # 4. Open a model channel
     with st.spinner('Opening model channel...'):
         model = await ark.get_model_channel(model_name)
-        if model._subscriber._inner is not None:
-            model._subscriber._inner._send_unsubscribe()
 
     # 5. Start subscribing
     with st.spinner('Subscribing...'):
@@ -48,13 +46,13 @@ def show_code_python() -> None:
         f'''
         # 1. Import needed libraries
         from openark import OpenArk
-        
+
         # 2. Create an OpenARK instance
         ark = OpenArk()
-        
+
         # 3. Define the UWB Location Dataset name
         model_name = 'footprint'
-        
+
         # 4. Open a model channel
         model = await ark.get_model_channel(model_name)
 
@@ -63,6 +61,7 @@ def show_code_python() -> None:
 
             # 6. Show outputs
             print(data)
+
         ''',
         line_numbers=True,
     )
