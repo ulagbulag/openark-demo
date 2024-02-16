@@ -1,2 +1,2 @@
-openark>=0.0.7
+openark>=0.0.8
 streamlit
