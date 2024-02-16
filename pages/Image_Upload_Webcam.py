@@ -8,7 +8,7 @@ from utils import code, upload
 
 async def get_inputs() -> dict[str, Any]:
     return {
-        'image': upload.image(),
+        'image': upload.webcam(),
     }
 
 
@@ -71,8 +71,19 @@ def show_code_python(image: Any | None) -> None:
     st.code(
         f'''
         # 0. Check inputs
-        image_name = {image_name!r}
-        image_data = open(image_name, 'rb').read()
+        def capture_image(save_path: str):
+            import cv2
+
+            cap = cv2.VideoCapture(0)  # on Linux, /dev/video0 should be exists
+            ret, frame = cap.read()
+            if not ret:
+                raise Exception('Failed to capture an image from the given webcam')
+
+            cv2.imwrite(save_path, frame)
+            return open(save_path, 'rb').read()
+
+        image_name = 'webcam_image.jpg'
+        image_data = capture_image(image_name)
 
 
         # 1. Import needed libraries
@@ -119,7 +130,7 @@ def show_code_python(image: Any | None) -> None:
 
 
 if __name__ == '__main__':
-    st.title('Image :: Upload')
+    st.title('Image :: Upload Webcam')
     inputs = asyncio.run(get_inputs())
     code.show(globals(), inputs)
     asyncio.run(execute(**inputs))
