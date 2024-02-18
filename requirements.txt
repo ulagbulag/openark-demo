@@ -1,4 +1,6 @@
-openark>=0.0.9
+langchain
+langchain-openai  # optional: OpenAI Integration
+openark>=0.0.10
 opencv-python
 streamlit
 streamlit-webrtc
