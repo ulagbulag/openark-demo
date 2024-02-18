@@ -11,7 +11,7 @@ async def get_inputs() -> dict[str, Any]:
         # NOTE: Ordered UI
         'type': st.selectbox(
             label='LLM Model',
-            help='Please choose which LLM engine do you want to use.',
+            help='Please choose which LLM engine you want to use.',
             options=[
                 'OpenAI',
             ],
