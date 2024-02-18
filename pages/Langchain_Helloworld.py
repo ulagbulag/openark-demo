@@ -20,7 +20,7 @@ async def get_inputs() -> dict[str, Any]:
             label='Context (prompt)',
             value='Please plan a 6 nights and 7 days trip in Paris, France.',
             help='Please write your prompt context.',
-        )
+        ),
     }
 
 
