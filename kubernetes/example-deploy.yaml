@@ -68,6 +68,8 @@ spec:
               value: nats-admin
             - name: NATS_ADDRS
               value: nats.dash.svc.ops.openark
+            - name: NATS_ALLOW_DROP
+              value: "true"
             - name: NATS_PASSWORD_PATH
               value: /var/run/secrets/nats.io/token
             - name: OPENAI_API_KEY

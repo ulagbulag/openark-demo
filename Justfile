@@ -8,6 +8,9 @@ export OCI_IMAGE := env_var_or_default('OCI_IMAGE', 'quay.io/ulagbulag/openark-d
 export OCI_IMAGE_VERSION := env_var_or_default('OCI_IMAGE_VERSION', 'latest')
 export OCI_PLATFORMS := env_var_or_default('OCI_PLATFORMS', 'linux/amd64')
 
+# Configure runtime environment variables
+export NATS_ALLOW_DROP := env_var_or_default('NATS_ALLOW_DROP', 'true')
+
 default:
   @just run
 
