@@ -60,7 +60,7 @@ def show_code_python() -> None:
             image = bytes(data['__payloads'][0]['value'])
 
             # 7. Show outputs
-            print(data)
+            print(image)
 
         ''',
         line_numbers=True,
