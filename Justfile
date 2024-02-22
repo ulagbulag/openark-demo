@@ -10,6 +10,11 @@ export OCI_PLATFORMS := env_var_or_default('OCI_PLATFORMS', 'linux/amd64')
 
 # Configure runtime environment variables
 export NATS_ALLOW_DROP := env_var_or_default('NATS_ALLOW_DROP', 'true')
+export PIPE_DEFAULT_MESSENGER := env_var_or_default('PIPE_DEFAULT_MESSENGER', 'Nats')
+export PIPE_ENCODER := env_var_or_default('PIPE_ENCODER', 'Json')
+export PIPE_PERSISTENCE := env_var_or_default('PIPE_PERSISTENCE', 'true')
+export PIPE_PERSISTENCE_METADATA := env_var_or_default('PIPE_PERSISTENCE_METADATA', 'false')
+export PIPE_QUEUE_GROUP := env_var_or_default('PIPE_QUEUE_GROUP', 'false')
 
 default:
   @just run
