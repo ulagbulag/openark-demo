@@ -47,7 +47,7 @@ def show_code_python() -> None:
         # 2. Create an OpenARK instance
         ark = OpenArk()
 
-        # 3. Define the UWB Location Dataset name
+        # 3. Define the image model
         model_name = 'image'
 
         # 4. Open a model channel
