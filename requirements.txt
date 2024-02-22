@@ -1,6 +1,6 @@
 langchain
 langchain-openai  # optional: OpenAI Integration
-openark>=0.0.16
+openark>=0.0.17
 opencv-python
 streamlit
 streamlit-webrtc
