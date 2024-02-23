@@ -1,10 +1,35 @@
 # OpenARK Python Demo Server
 
-## Run server
+You can conveniently experience various features of MobileX
+and learn how to use the Python API to implement each feature.
+
+## Requirements
+
+- [OpenARK](https://github.com/ulagbulag/OpenARK/tree/master/templates/bootstrap)
+- Python
+  - Install with your package manager
+  - Install with Anaconda environment (recommended)
+
+### Install Python Dependencies
 
 ```sh
+# Please activate your virtual environment,
+# i.e. conda activate <my_env>
+pip install -r requirements.txt
+```
+
+## Run server
+
+In your OpenARK VINE Desktop (aka. `MobileX Station`),
+
+```sh
+# Please activate your virtual environment,
+# i.e. conda activate <my_env>
 streamlit run Home.py --server.port=8501
+
 # Then, open "http://localhost:8501/" with your browser.
+# On Linux: xdg-open "http://localhost:8501/"
+# On MacOS: open "http://localhost:8501/"
 ```
 
 ## Upload my own Feature
